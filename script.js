@@ -45,11 +45,50 @@ function submitGuess() {
   guessCount++
 
   if (input == word) {
-    // TODO win condition
+    alert(`${word} was correct!`)
+    gameWon()
   }
 
   if (guessCount == 6) {
-    // TODO loss condition
+    alert(`The correct word was ${word}. Resetting your current streak.`)
+    gameLost()
   }
 
+}
+
+function resetBoard() {
+  for (let i = 0; i < 6; i++) {
+    let current_guess = guessSpots[i]
+    let guess_letters = current_guess.children
+
+    for (let j = 0; j < 5; j++) {
+      guess_letters[j].innerHTML = ""
+      guess_letters[j].className = "letter"
+    }
+
+    guessCount = 0
+
+  }
+
+  word = wordList[Math.floor(Math.random()*wordList.length)];
+}
+
+function gameWon() {
+  resetBoard()
+  currentWinStreak++
+
+  if (currentWinStreak > highestWinStreak) {
+    highestWinStreak = currentWinStreak
+  }
+
+  document.getElementById('current_win_streak').innerHTML = `Current Win Streak: ${currentWinStreak}`
+  document.getElementById('highest_win_streak').innerHTML = `Highest Win Streak: ${highestWinStreak}`
+  
+}
+
+function gameLost() {
+  resetBoard()
+  currentWinStreak = 0
+  
+  document.getElementById('current_win_streak').innerHTML = `Current Win Streak: ${currentWinStreak}`
 }
