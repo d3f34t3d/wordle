@@ -27,10 +27,10 @@ This web-based game is a modified clone of the popular word guessing game Wordle
 - Responsive design for desktop browsers.
 
 ## Screenshots
-- **Game Start**: ![Game Start](./docs/design_system/game_start.png)
-- **Mid Game**: ![Mid Game](./docs/design_system/mid_game.png)
-- **Game Win**: ![Game Win](./docs/design_system/game_win.png)
-- **Game Lose**: ![Game Lose](./docs/design_system/game_lose.png)
+- **Game Start**: ![Game Start](./docs/game_start.png)
+- **Mid Game**: ![Mid Game](./docs/mid_game.png)
+- **Game Win**: ![Game Win](./docs/game_win.png)
+- **Game Lose**: ![Game Lose](./docs/game_lose.png)
 
 ## Credits
 Developed by Areeb Akazai & Aydin Yalcinkaya as part of CSI 3140 A2.
