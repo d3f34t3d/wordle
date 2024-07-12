@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', (event) => {
+    // Check if player name is already set
     fetch('game.php')
         .then(response => response.json())
         .then(data => {
@@ -6,6 +7,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 document.getElementById('name_input_container').style.display = 'none';
                 document.getElementById('game').style.display = 'block';
                 updateGameUI(data);
+                // Update button states based on game state
+                updateButtonState(data.gameOver);
             }
         })
         .catch(error => console.error('Error fetching game state:', error));
@@ -29,6 +32,7 @@ function submitName() {
         document.getElementById('name_input_container').style.display = 'none';
         document.getElementById('game').style.display = 'block';
         updateGameUI(data);
+        updateButtonState(data.gameOver);
     })
     .catch(error => console.error('Error submitting player name:', error));
 }
@@ -52,8 +56,26 @@ function submitGuess() {
         body: `guess=${input}`
     })
         .then(response => response.json())
-        .then(data => updateGameUI(data))
+        .then(data => {
+            updateGameUI(data);
+            updateButtonState(data.gameOver);
+        })
         .catch(error => console.error('Error submitting guess:', error));
+}
+
+function playAgain() {
+    fetch('game.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'playAgain=true'
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('play_again').style.display = 'none';
+        updateGameUI(data);
+        updateButtonState(data.gameOver);
+    })
+    .catch(error => console.error('Error starting new game:', error));
 }
 
 function updateGameUI(data) {
@@ -63,32 +85,45 @@ function updateGameUI(data) {
     }
 
     const guessContainer = document.getElementById('guess_container');
-    guessContainer.innerHTML = '';
+    const guessRows = guessContainer.getElementsByClassName('guess');
+    for (let i = 0; i < guessRows.length; i++) {
+        const guessDiv = guessRows[i];
+        const letters = guessDiv.getElementsByClassName('letter');
 
-    data.guesses.forEach((guess, index) => {
-        const guessDiv = document.createElement('div');
-        guessDiv.classList.add('guess');
-        
-        for (let i = 0; i < 5; i++) {
-            const letterDiv = document.createElement('div');
-            letterDiv.classList.add('letter');
-            letterDiv.innerHTML = guess[i];
-
-            if (guess[i] === data.word[i]) {
-                letterDiv.classList.add('correct');
-            } else if (data.word.includes(guess[i])) {
-                letterDiv.classList.add('change');
-            } else {
-                letterDiv.classList.add('wrong');
+        if (data.guesses[i]) {
+            const guess = data.guesses[i];
+            for (let j = 0; j < letters.length; j++) {
+                letters[j].innerHTML = guess[j];
+                if (guess[j] === data.word[j]) {
+                    letters[j].classList.add('correct');
+                } else if (data.word.includes(guess[j])) {
+                    letters[j].classList.add('change');
+                } else {
+                    letters[j].classList.add('wrong');
+                }
             }
-
-            guessDiv.appendChild(letterDiv);
+        } else {
+            for (let j = 0; j < letters.length; j++) {
+                letters[j].innerHTML = '';
+                letters[j].classList.remove('correct', 'change', 'wrong');
+            }
         }
-
-        guessContainer.appendChild(guessDiv);
-    });
+    }
 
     document.getElementById('current_win_streak').innerHTML = `Current Win Streak: ${data.currentWinStreak}`;
     document.getElementById('highest_win_streak').innerHTML = `Highest Win Streak: ${data.highestWinStreak}`;
     document.getElementById('guess_input').value = '';
+}
+
+function updateButtonState(gameOver) {
+    const guessButton = document.querySelector('#guess_input + .submit-button');
+    const playAgainButton = document.getElementById('play_again');
+
+    if (gameOver) {
+        playAgainButton.style.display = 'block';
+        guessButton.disabled = true;
+    } else {
+        playAgainButton.style.display = 'none';
+        guessButton.disabled = false;
+    }
 }
