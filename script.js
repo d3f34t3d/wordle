@@ -1,15 +1,14 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    // Check if player name is already set
     fetch('game.php')
         .then(response => response.json())
         .then(data => {
-            if (data.playerName) {
+            if (data.game_state.playerName) {
                 document.getElementById('name_input_container').style.display = 'none';
                 document.getElementById('game').style.display = 'block';
-                updateGameUI(data);
-                // Update button states based on game state
-                updateButtonState(data.gameOver);
+                updateGameUI(data.game_state);
+                updateButtonState(data.game_state.gameOver);
             }
+            displayLeaderboard(data.leaderboard);
         })
         .catch(error => console.error('Error fetching game state:', error));
 });
@@ -55,12 +54,12 @@ function submitGuess() {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: `guess=${input}`
     })
-        .then(response => response.json())
-        .then(data => {
-            updateGameUI(data);
-            updateButtonState(data.gameOver);
-        })
-        .catch(error => console.error('Error submitting guess:', error));
+    .then(response => response.json())
+    .then(data => {
+        updateGameUI(data);
+        updateButtonState(data.gameOver);
+    })
+    .catch(error => console.error('Error submitting guess:', error));
 }
 
 function playAgain() {
@@ -78,9 +77,9 @@ function playAgain() {
     .catch(error => console.error('Error starting new game:', error));
 }
 
-function updateGameUI(data) {
-    if (data.error) {
-        alert(data.error);
+function updateGameUI(gameState) {
+    if (gameState.error) {
+        alert(gameState.error);
         return;
     }
 
@@ -90,13 +89,13 @@ function updateGameUI(data) {
         const guessDiv = guessRows[i];
         const letters = guessDiv.getElementsByClassName('letter');
 
-        if (data.guesses[i]) {
-            const guess = data.guesses[i];
+        if (gameState.guesses[i]) {
+            const guess = gameState.guesses[i];
             for (let j = 0; j < letters.length; j++) {
                 letters[j].innerHTML = guess[j];
-                if (guess[j] === data.word[j]) {
+                if (guess[j] === gameState.word[j]) {
                     letters[j].classList.add('correct');
-                } else if (data.word.includes(guess[j])) {
+                } else if (gameState.word.includes(guess[j])) {
                     letters[j].classList.add('change');
                 } else {
                     letters[j].classList.add('wrong');
@@ -110,8 +109,8 @@ function updateGameUI(data) {
         }
     }
 
-    document.getElementById('current_win_streak').innerHTML = `Current Win Streak: ${data.currentWinStreak}`;
-    document.getElementById('highest_win_streak').innerHTML = `Highest Win Streak: ${data.highestWinStreak}`;
+    document.getElementById('current_win_streak').innerHTML = `Current Win Streak: ${gameState.currentWinStreak}`;
+    document.getElementById('highest_win_streak').innerHTML = `Highest Win Streak: ${gameState.highestWinStreak}`;
     document.getElementById('guess_input').value = '';
 }
 
@@ -126,4 +125,23 @@ function updateButtonState(gameOver) {
         playAgainButton.style.display = 'none';
         guessButton.disabled = false;
     }
+}
+
+function displayLeaderboard(leaderboard) {
+    const leaderboardDiv = document.createElement('div');
+    leaderboardDiv.className = 'leaderboard-container';
+    
+    const title = document.createElement('h2');
+    title.innerText = 'Leaderboard';
+    leaderboardDiv.appendChild(title);
+
+    const list = document.createElement('ul');
+    leaderboard.forEach(entry => {
+        const listItem = document.createElement('li');
+        listItem.innerText = `${entry.name}: ${entry.streak} streak`;
+        list.appendChild(listItem);
+    });
+    leaderboardDiv.appendChild(list);
+
+    document.querySelector('.game-container').appendChild(leaderboardDiv);
 }

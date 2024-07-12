@@ -86,3 +86,26 @@ body {
 .submit-button:hover {
   background-color: lightgreen;
 }
+
+.leaderboard-container {
+  margin-top: 2em;
+  padding: 1em;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-align: left;
+}
+
+.leaderboard-container h2 {
+  margin: 0;
+  margin-bottom: 1em;
+}
+
+.leaderboard-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+.leaderboard-container li {
+  margin-bottom: 0.5em;
+}
