@@ -1,8 +1,6 @@
 <?php
 session_start();
 
-define('LEADERBOARD_FILE', 'leaderboard.json');
-
 if (!isset($_SESSION['game_state'])) {
     $_SESSION['game_state'] = [
         'playerName' => '',
@@ -23,37 +21,6 @@ function resetGame() {
     $_SESSION['game_state']['guessCount'] = 0;
     $_SESSION['game_state']['guesses'] = [];
     $_SESSION['game_state']['gameOver'] = false;
-}
-
-function readLeaderboard() {
-    if (!file_exists(LEADERBOARD_FILE)) {
-        file_put_contents(LEADERBOARD_FILE, json_encode([]));
-    }
-    return json_decode(file_get_contents(LEADERBOARD_FILE), true);
-}
-
-function writeLeaderboard($leaderboard) {
-    file_put_contents(LEADERBOARD_FILE, json_encode($leaderboard));
-}
-
-function updateLeaderboard($playerName, $score) {
-    $leaderboard = readLeaderboard();
-    $found = false;
-    foreach ($leaderboard as &$entry) {
-        if ($entry['playerName'] === $playerName) {
-            $entry['score'] = max($score, $entry['score']);
-            $found = true;
-            break;
-        }
-    }
-    if (!$found) {
-        $leaderboard[] = ['playerName' => $playerName, 'score' => $score];
-    }
-    usort($leaderboard, function($a, $b) {
-        return $b['score'] - $a['score'];
-    });
-    $leaderboard = array_slice($leaderboard, 0, 10);
-    writeLeaderboard($leaderboard);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -86,7 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($_SESSION['game_state']['currentWinStreak'] > $_SESSION['game_state']['highestWinStreak']) {
             $_SESSION['game_state']['highestWinStreak'] = $_SESSION['game_state']['currentWinStreak'];
         }
-        updateLeaderboard($_SESSION['game_state']['playerName'], $_SESSION['game_state']['currentWinStreak']);
         $_SESSION['game_state']['gameOver'] = true;
     } elseif ($_SESSION['game_state']['guessCount'] >= 6) {
         $_SESSION['game_state']['currentWinStreak'] = 0;
@@ -98,10 +64,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    if (isset($_GET['leaderboard'])) {
-        echo json_encode(readLeaderboard());
-        exit;
-    }
     
     if (empty($_SESSION['game_state']['word'])) {
         resetGame();
