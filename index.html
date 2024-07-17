@@ -11,93 +11,77 @@
   <div class="game-container">
     <h1>Wordle</h1>
     <h2>By Areeb Akazai & Aydin Yalcinkaya</h2>
-    <h2>CSI 3140 A2</h2>
-    <p id="instructions">Guess the 5-letter word within 6 attempts.<br />Green means correct letter and position,
-      yellow
+    <h2>CSI 3140 A3</h2>
+    <p id="instructions">Guess the 5-letter word within 6 attempts.<br />Green means correct letter and position, yellow
       means correct letter but wrong position, and grey means wrong letter.</p>
-    <div class="game" id="game">
+
+    <div id="name_input_container">
+      <label for="player_name">Enter your name: </label>
+      <input id="player_name" class="input-field"></input>
+      <button type="submit" class="submit-button" onclick="submitName()">Start</button>
+    </div>
+
+    <div id="game" style="display:none;">
       <p id="current_win_streak">Current Win Streak: 0</p>
       <p id="highest_win_streak">Highest Win Streak: 0</p>
 
       <div id="guess_container" class="guess_container">
         <div class="guess">
-          <div class="letter">
-          </div>
-          <div class="letter">
-          </div>
-          <div class="letter">
-          </div>
-          <div class="letter">
-          </div>
-          <div class="letter">
-          </div>
+          <div class="letter"></div>
+          <div class="letter"></div>
+          <div class="letter"></div>
+          <div class="letter"></div>
+          <div class="letter"></div>
         </div>
         <div class="guess">
-          <div class="letter">
-          </div>
-          <div class="letter">
-          </div>
-          <div class="letter">
-          </div>
-          <div class="letter">
-          </div>
-          <div class="letter">
-          </div>
+          <div class="letter"></div>
+          <div class="letter"></div>
+          <div class="letter"></div>
+          <div class="letter"></div>
+          <div class="letter"></div>
         </div>
         <div class="guess">
-          <div class="letter">
-          </div>
-          <div class="letter">
-          </div>
-          <div class="letter">
-          </div>
-          <div class="letter">
-          </div>
-          <div class="letter">
-          </div>
+          <div class="letter"></div>
+          <div class="letter"></div>
+          <div class="letter"></div>
+          <div class="letter"></div>
+          <div class="letter"></div>
         </div>
         <div class="guess">
-          <div class="letter">
-          </div>
-          <div class="letter">
-          </div>
-          <div class="letter">
-          </div>
-          <div class="letter">
-          </div>
-          <div class="letter">
-          </div>
+          <div class="letter"></div>
+          <div class="letter"></div>
+          <div class="letter"></div>
+          <div class="letter"></div>
+          <div class="letter"></div>
         </div>
         <div class="guess">
-          <div class="letter">
-          </div>
-          <div class="letter">
-          </div>
-          <div class="letter">
-          </div>
-          <div class="letter">
-          </div>
-          <div class="letter">
-          </div>
+          <div class="letter"></div>
+          <div class="letter"></div>
+          <div class="letter"></div>
+          <div class="letter"></div>
+          <div class="letter"></div>
         </div>
         <div class="guess">
-          <div class="letter">
-          </div>
-          <div class="letter">
-          </div>
-          <div class="letter">
-          </div>
-          <div class="letter">
-          </div>
-          <div class="letter">
-          </div>
+          <div class="letter"></div>
+          <div class="letter"></div>
+          <div class="letter"></div>
+          <div class="letter"></div>
+          <div class="letter"></div>
         </div>
       </div>
+
       <div class="input-container">
         <label for="guess_input">Enter your guess: </label>
         <input id="guess_input" class="input-field"></input>
         <button type="submit" class="submit-button" onclick="submitGuess()">Guess</button>
       </div>
+
+      <button id="play_again" class="submit-button" style="display:none;" onclick="playAgain()">Play Again</button>
+    </div>
+
+    <div id="leaderboard" class="leaderboard-container" style="display:none;">
+      <h2>Leaderboard</h2>
+      <ul id="leaderboard_list"></ul>
     </div>
   </div>
   <script src="script.js"></script>
