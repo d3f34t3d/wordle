@@ -17,11 +17,11 @@ A server-enhanced version of the classic Wordle game where all game logic is han
 - **Secure and Validated Inputs**: Implements strict validation to ensure that all user inputs are safe and correct, preventing common web vulnerabilities.
 
 ## Screenshots
-- **Game Start**: ![Game Start](docs\game_start.png)
-- **Mid Game**: ![Mid Game](docs\mid_game.png)
-- **Game Win**: ![Game Win](docs\game_win.png)
-- **Game Win Play Again**: ![Game Win](docs\game_win_restart.png)
-- **Game Lose**: ![Game Lose](docs\game_lose.png)
+- **Game Start**: ![Game Start](docs/game_start.png)
+- **Mid Game**: ![Mid Game](docs/mid_game.png)
+- **Game Win**: ![Game Win](docs/game_win.png)
+- **Game Win Play Again**: ![Game Win](docs/game_win_restart.png)
+- **Game Lose**: ![Game Lose](docs/game_lose.png)
 
 ## Setup
 Instructions on how to set up and run the game locally:
