@@ -1,7 +1,7 @@
 # Design System Documentation
 
 ## Overview
-This document details the design and implementation of the Wordle game variant developed by Areeb Akazai & Aydin Yalcinkaya. It covers the JavaScript logic, HTML structure, CSS styling, and the PHP backend handling game logic and session management.
+This document describes the design and implementation of the Wordle game variant developed by Areeb Akazai & Aydin Yalcinkaya. It covers JavaScript logic, HTML structure, CSS styling, and the integration of a PHP backend with a database for managing game logic and player data.
 
 ## HTML Structure
 - **Game Container**:
@@ -27,7 +27,7 @@ This document details the design and implementation of the Wordle game variant d
 
 ## JavaScript Components
 - **Word Selection**:
-  - Randomly selects a word from an array (`wordList`) at the start of the game or upon resetting.
+  - Randomly selects a word from a server-managed list stored in a database at the start of the game or upon resetting.
 
 - **Game Mechanics**:
   - Manages and validates guess submissions for correct format and length.
@@ -39,17 +39,21 @@ This document details the design and implementation of the Wordle game variant d
 - **Game State Management**:
   - Utilizes functions such as `resetBoard`, `gameWon`, and `gameLost` to control the game's state across rounds and sessions, effectively resetting variables and UI elements.
 
-## PHP Backend
+## PHP Backend and Database Integration
+- **Database Setup**:
+  - Replaces PHP session storage with a PostgreSQL database to manage user data, game sessions, and words.
+  - Utilizes tables `users`, `sessions`, and `words` to store and manage game data efficiently.
+
 - **Session Management**:
-  - Utilizes PHP sessions to maintain game state across multiple requests, preserving player progress and settings without the need for constant server communication.
+  - Maintains game state using database entries, providing robust data persistence across multiple requests.
 
 - **Leaderboard Implementation**:
-  - Manages a leaderboard stored in a JSON file (`leaderboard.json`), handling file reads and writes to update and retrieve player rankings based on win streaks.
+  - Retrieves and updates player rankings directly from the database, facilitating real-time leaderboard updates.
 
 - **Game Logic**:
-  - Processes guesses and updates the game state, checking win conditions, updating streaks, and managing the end of game scenarios through server-side scripting.
+  - Handles guess processing and game state updates server-side, ensuring secure and consistent game operations.
 
 - **Security and Validation**:
-  - Ensures robust input validation to prevent common security vulnerabilities such as injection attacks, maintaining the integrity of game operations and user interactions.
+  - Implements enhanced security measures including input validation and database interaction checks to prevent SQL injection and other common vulnerabilities.
 
-This design system is structured to provide a comprehensive understanding of the game's development and operational logic, ensuring maintainability and scalability.
+This documentation reflects the transition of the worlde game to a database-driven architecture, whilst providing detailed insights into the game's development and operational logic for maintainability and scalability.

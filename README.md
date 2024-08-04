@@ -1,20 +1,22 @@
-# Wordle Game - PHP Enhanced
-### CSI3140 A3
+# Wordle Game - PHP Enhanced with Database Support
+### CSI3140 A4
 
 ## Overview
-A server-enhanced version of the classic Wordle game where all game logic is handled via a PHP backend, exposing game functionality through a JSON API. The JavaScript frontend focuses solely on rendering the game state.
+This enhanced version of the classic Wordle game now incorporates a backend sql database to manage game state and player scores more effectively, moving away from PHP session storage.
 
 ## How to Play
 - Download or clone the repository.
-- Run the project on a server with PHP support (like XAMPP or WAMP).
+- Ensure your PHP server environment (like XAMPP or WAMP) supports PostgreSQL or MySQL.
+- Import the `db.sql` file to set up the database.
+- Run the project on a server with PHP and database support.
 - Open the provided HTML file in a browser to start the game.
 - Enter your guesses to try and match the word selected by the server.
 
 ## Features
-- **Server-side Game State Management**: Game state, including win streaks and guesses, is stored on the server using PHP sessions.
-- **JSON API Interaction**: Frontend makes AJAX calls to interact with the backend, ensuring separation of concerns.
-- **Dynamic Leaderboard**: Tracks top 10 scores using server-side storage, displaying them dynamically in the game interface.
-- **Secure and Validated Inputs**: Implements strict validation to ensure that all user inputs are safe and correct, preventing common web vulnerabilities.
+- **Database-Driven State Management**: Uses a relational database to store user data, game sessions, and words for gameplay.
+- **JSON API Interaction**: Frontend makes AJAX calls to the backend, allowing for a clear separation of concerns.
+- **Dynamic Leaderboard**: Utilizes database queries to retrieve and display top player scores.
+- **Secure and Validated Inputs**: Extends validation to ensure safe and correct user inputs, enhancing security against web vulnerabilities.
 
 ## Screenshots
 - **Game Start**: ![Game Start](docs/game_start.png)
@@ -24,12 +26,11 @@ A server-enhanced version of the classic Wordle game where all game logic is han
 - **Game Lose**: ![Game Lose](docs/game_lose.png)
 
 ## Setup
-Instructions on how to set up and run the game locally:
-1. Ensure you have a PHP server environment.
-2. Place the game files in your server's document root.
-3. Access the game via your browser by navigating to the appropriate URL, typically something like `http://localhost/path/to/game`.
+Steps to set up and run the game:
+1. Set up a PHP server environment with database support.
+2. Import the database schema from `db.sql`.
+3. Place the game files in your server's document root.
+4. Access the game through your browser at the URL like `http://localhost/path/to/game`.
 
 ## Credits
 Developed by Areeb Akazai & Aydin Yalcinkaya as part of CSI 3140 A3.
-
-.
